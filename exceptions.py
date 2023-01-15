@@ -1,9 +1,3 @@
-class NoneEnvVariableException(Exception):
-    """Ошибка незаполненной переменной окружения."""
-
-    pass
-
-
 class ApiRequestException(Exception):
     """Ошибка при обращении к API."""
 
@@ -25,4 +19,10 @@ class HomeWorkApiException(Exception):
 class InvalidTelegramTokenException(Exception):
     """Ошибка при некорректном токене для бота Telegram."""
 
+    pass
+
+class SendMessageCustomError(Exception):
+    pass
+
+class JsonError(Exception):
     pass
