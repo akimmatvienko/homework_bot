@@ -21,8 +21,14 @@ class InvalidTelegramTokenException(Exception):
 
     pass
 
-class SendMessageCustomError(Exception):
+
+class SendMessageError(Exception):
+    """Ошибка при попытке отправить сообщение."""
+
     pass
 
+
 class JsonError(Exception):
+    """Ответ от API не был преобзаван в json."""
+
     pass

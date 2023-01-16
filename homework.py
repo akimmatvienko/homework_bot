@@ -11,10 +11,9 @@ from dotenv import load_dotenv
 from exceptions import (
     ApiRequestException,
     HomeWorkApiException,
-    InvalidTelegramTokenException,
     JsonError,
     NotOkStatusCodeException,
-    SendMessageCustomError
+    SendMessageError
 )
 
 load_dotenv()
@@ -76,7 +75,7 @@ def send_message(bot, message):
         logger.debug('Отправили сообщение через бота')
     except Exception as error:
         logger.error(f'Не удалось отправить сообщение через бота{error}')
-        raise SendMessageCustomError
+        raise SendMessageError
 
 
 def get_api_answer(timestamp):
@@ -140,10 +139,7 @@ def main():
     if not check_tokens():
         logger.critical('Отсутствует один или несколько токенов')
         sys.exit()
-    try:
-        bot = telegram.Bot(token=TELEGRAM_TOKEN)
-    except telegram.error.InvalidToken:
-        raise InvalidTelegramTokenException('Некорректный token для бота')
+    bot = telegram.Bot(token=TELEGRAM_TOKEN)
     logger.debug('Запуск бота')
     timestamp = int(time.time())
     while True:
@@ -162,8 +158,7 @@ def main():
 
         except Exception as error:
             logger.error(f'Сбой в работе программы: {error}')
-            message = f'Сбой в работе программы: {error}'
-            send_message(bot, message)
+            raise SendMessageError
 
         finally:
             logger.debug('Засыпаем на 10 минут')
