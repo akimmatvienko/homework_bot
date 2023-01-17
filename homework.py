@@ -153,12 +153,18 @@ def main():
                 logger.debug('Новых обновлений по ДЗ нет.')
             timestamp = response.get('current_date')
 
+        except SendMessageError as error:
+            logger.error(
+                f'Не удалось отправить сообщение. Ошибка - {error}'
+            )
+
         except TypeError as error:
             logger.error(f'Некорректный response. Ошибка - {error}')
 
         except Exception as error:
             logger.error(f'Сбой в работе программы: {error}')
-            raise SendMessageError
+            message = f"Сбой в работе программы: {error}"
+            send_message(bot, message)
 
         finally:
             logger.debug('Засыпаем на 10 минут')
